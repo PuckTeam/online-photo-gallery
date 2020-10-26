@@ -4,3 +4,5 @@
 请在application.properties 下配置自己需要的端口以及文件大小限制
 2.配置服务器外网ip
 config/ServerConfig.java
+3.上传文件
+http://ip:端口/swagger-ui.html#!
