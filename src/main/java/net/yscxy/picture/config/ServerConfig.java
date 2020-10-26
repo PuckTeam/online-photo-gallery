@@ -14,7 +14,8 @@ public class ServerConfig implements ApplicationListener<WebServerInitializedEve
     private int serverPort;
 
     public String getUrl() {
-        return "http://" + "39.102.66.229" + ":" + this.serverPort;
+        String ip = "39.102.66.229";
+        return "http://" + ip+ ":" + this.serverPort;
     }
 
     @Override

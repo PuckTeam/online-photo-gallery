@@ -9,7 +9,7 @@ package net.yscxy.picture.controller;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import net.yscxy.picture.config.ServerConfig;
-import net.yscxy.picture.util.FileUtils;
+import net.yscxy.picture.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +24,10 @@ import java.util.Map;
 public class UploadController {
     @Autowired
     private ServerConfig serverConfig;
+    private String folder ="file";
     @PostMapping("/Upload")
-    public Map imageUpload(MultipartFile file, HttpServletRequest request) {
+    public Map imageUpload(MultipartFile file) {
+       FileUtil.MkDir();
         String result_msg = "";//上传结果信息
         Map<String, Object> root = new HashMap<String, Object>();
         if (file == null) {
@@ -40,7 +42,7 @@ public class UploadController {
             //windows环境
 //                final String localPath = "D:\\img";
             //服务器环境
-            final String localPath = "/www/wwwroot/Picture/img";
+            final String localPath = FileUtil.getJarPath()+"/"+folder;
             //上传后保存的文件名(需要防止图片重名导致的文件覆盖)
             //获取文件名
             System.out.println(file.getOriginalFilename());
@@ -49,9 +51,9 @@ public class UploadController {
             /*String suffixName = fileName.substring(fileName.lastIndexOf("."));
             //重新生成文件名
             fileName = UUID.randomUUID() + suffixName;*/
-            if (FileUtils.upload(file, localPath, fileName)) {
+            if (FileUtil.upload(file, localPath, fileName)) {
                 //文件存放的相对路径(一般存放在数据库用于img标签的src)
-                String relativePath = serverConfig.getUrl() +"/"+"img/" + fileName;
+                String relativePath = serverConfig.getUrl() +"/"+folder+"/" + fileName;
                 System.out.println(relativePath);
                 root.put("relativePath",relativePath);//前端根据是否存在该字段来判断上传是否成功
                 result_msg = "图片上传成功";

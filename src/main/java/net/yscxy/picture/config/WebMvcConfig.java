@@ -2,9 +2,8 @@ package net.yscxy.picture.config;
 
 import com.google.common.net.HttpHeaders;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import net.yscxy.picture.util.FileUtil;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -31,9 +30,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //windows环境
-       // registry.addResourceHandler("/img/**").addResourceLocations("file:///D:/img/");
+       // registry.addResourceHandler("/img/**").addResourceLocations("file:///D:/img/");"
         //服务器环境
-        registry.addResourceHandler("/img/**").addResourceLocations("file:///www/wwwroot/Picture/img/");
+        System.out.println("file://"+FileUtil.getJarPath() +"/file/");
+        registry.addResourceHandler("/file/**").addResourceLocations("file://"+FileUtil.getJarPath() +"/file/");
     }
 
 }
